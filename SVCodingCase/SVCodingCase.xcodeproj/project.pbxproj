@@ -17,6 +17,9 @@
 		ECD4036529C4694C002C1CD5 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = ECD4036429C4694C002C1CD5 /* ComposableArchitecture */; };
 		ECD4036929C46A50002C1CD5 /* ContentDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4036829C46A50002C1CD5 /* ContentDomain.swift */; };
 		ECD4036C29C46BF6002C1CD5 /* sv_lsm_data.json in Resources */ = {isa = PBXBuildFile; fileRef = ECD4036B29C46BF6002C1CD5 /* sv_lsm_data.json */; };
+		ECD4036F29C46DC0002C1CD5 /* DataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4036E29C46DC0002C1CD5 /* DataClient.swift */; };
+		ECD4037229C46EB9002C1CD5 /* SVData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037129C46EB9002C1CD5 /* SVData.swift */; };
+		ECD4037429C48A59002C1CD5 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037329C48A59002C1CD5 /* DataParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		ECD4035629C468DF002C1CD5 /* SVCodingCaseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVCodingCaseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		ECD4036829C46A50002C1CD5 /* ContentDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDomain.swift; sourceTree = "<group>"; };
 		ECD4036B29C46BF6002C1CD5 /* sv_lsm_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sv_lsm_data.json; sourceTree = "<group>"; };
+		ECD4036E29C46DC0002C1CD5 /* DataClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataClient.swift; sourceTree = "<group>"; };
+		ECD4037129C46EB9002C1CD5 /* SVData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVData.swift; sourceTree = "<group>"; };
+		ECD4037329C48A59002C1CD5 /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,8 @@
 		ECD4033829C468DD002C1CD5 /* SVCodingCase */ = {
 			isa = PBXGroup;
 			children = (
+				ECD4037029C46E20002C1CD5 /* Models */,
+				ECD4036D29C46D9A002C1CD5 /* Dependencies */,
 				ECD4036A29C46A71002C1CD5 /* Resources */,
 				ECD4036629C46984002C1CD5 /* Domains */,
 				ECD4033929C468DD002C1CD5 /* SVCodingCaseApp.swift */,
@@ -157,6 +165,23 @@
 				ECD4033D29C468DE002C1CD5 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		ECD4036D29C46D9A002C1CD5 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				ECD4036E29C46DC0002C1CD5 /* DataClient.swift */,
+				ECD4037329C48A59002C1CD5 /* DataParser.swift */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+		ECD4037029C46E20002C1CD5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				ECD4037129C46EB9002C1CD5 /* SVData.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +322,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECD4033C29C468DD002C1CD5 /* ContentView.swift in Sources */,
+				ECD4037229C46EB9002C1CD5 /* SVData.swift in Sources */,
+				ECD4037429C48A59002C1CD5 /* DataParser.swift in Sources */,
+				ECD4036F29C46DC0002C1CD5 /* DataClient.swift in Sources */,
 				ECD4033A29C468DD002C1CD5 /* SVCodingCaseApp.swift in Sources */,
 				ECD4036929C46A50002C1CD5 /* ContentDomain.swift in Sources */,
 			);
