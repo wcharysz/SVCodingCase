@@ -12,6 +12,7 @@ struct ContentDomain: ReducerProtocol {
     
     struct State: Equatable {
         var model: SVData?
+        var rows: IdentifiedArrayOf<Lock> = []
         @BindingState var search = ""
     }
     
@@ -39,6 +40,7 @@ struct ContentDomain: ReducerProtocol {
                 }
             case .reloadModel(let newModel):
                 state.model = newModel
+                state.rows = IdentifiedArrayOf(uniqueElements: newModel.locks)
                 return .none
             }
         }

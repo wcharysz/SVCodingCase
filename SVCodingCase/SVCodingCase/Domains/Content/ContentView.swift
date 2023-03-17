@@ -14,13 +14,34 @@ struct ContentView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundColor(.accentColor)
-                Text("Hello, world!")
+            NavigationStack {
+                VStack {
+                    List {
+                        ForEach(viewStore.rows) { row in
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text("Lock name: ")
+                                    Text(row.name)
+                                }.padding()
+                                
+                                HStack {
+                                    Text("Building:")
+                                    Text(row.buildingDesription)
+                                    
+                                    Text("-")
+                                    Text(row.floorDescription)
+                                    Text("-")
+                                    
+                                    Text(row.roomNumber)
+                                }.padding()
+                            }
+                        }
+                    }
+                }
+            }.searchable(text: viewStore.binding(\.$search), prompt: "Search for locks")
+             .onAppear {
+                viewStore.send(.loadData)
             }
-            .padding()
         }
     }
 }

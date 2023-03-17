@@ -22,7 +22,7 @@ struct Building: Decodable, Equatable {
 }
 
 // MARK: - Lock
-struct Lock: Decodable, Equatable {
+struct Lock: Decodable, Equatable, Identifiable {
     let id, buildingID: String
     let type: LockType
     let name: String
@@ -96,4 +96,25 @@ enum MediaType: String, Decodable, Equatable {
     case card = "Card"
     case transponder = "Transponder"
     case transponderWithCardInlay = "TransponderWithCardInlay"
+}
+
+
+extension Lock {
+    var buildingDesription: String {
+        let result = buildingID.prefix(5)
+        
+        return String(result)
+    }
+    
+    var floorDescription: String {
+        guard let floor else {
+            return "🤷‍♂️"
+        }
+        
+        switch floor {
+        case .order(let number):
+            return number == 0 ? "Ground" : String(number)
+        }
+        
+    }
 }
