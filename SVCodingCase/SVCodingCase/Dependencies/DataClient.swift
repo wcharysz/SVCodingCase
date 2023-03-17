@@ -11,15 +11,16 @@ import ComposableArchitecture
 struct DataClient {
     var loadData: () async throws -> Data
     
-    enum DataStoreErrors: Error {
+    enum DataClientErrors: Error {
         case noFile
+        case wrongURL
     }
 }
 
 extension DataClient {
     static let mock = DataClient {
         guard let fileURL = Bundle.main.url(forResource: "sv_lsm_data", withExtension: "json") else {
-            throw DataStoreErrors.noFile
+            throw DataClientErrors.noFile
         }
         
         let file = try Data(contentsOf: fileURL)
@@ -28,17 +29,12 @@ extension DataClient {
     }
     
     static let live = DataClient {
-        
-        //TODO: Replace it with an actual call to the backend
-        try await Task.sleep(for: .seconds(2))
-        
-        guard let fileURL = Bundle.main.url(forResource: "sv_lsm_data", withExtension: "json") else {
-            throw DataStoreErrors.noFile
+        guard let url = URL(string: "https://dev.homework.system3060.com/sv_lsm_data.json") else {
+            throw DataClientErrors.wrongURL
         }
+        let reply = try await URLSession.shared.data(from: url)
         
-        let file = try Data(contentsOf: fileURL)
-        
-        return file
+        return reply.0
     }
 }
 

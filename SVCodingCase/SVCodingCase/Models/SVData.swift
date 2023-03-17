@@ -36,35 +36,39 @@ struct Lock: Decodable, Equatable {
         case buildingID = "buildingId"
         case type, name, description, serialNumber, floor, roomNumber
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.buildingID = try container.decode(String.self, forKey: .buildingID)
+        self.type = try container.decode(LockType.self, forKey: .type)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.description = try container.decodeIfPresent(String.self, forKey: .description)
+        self.serialNumber = try container.decode(String.self, forKey: .serialNumber)
+        if let rawFloor = try container.decodeIfPresent(String.self, forKey: .floor) {
+            if rawFloor == "EG" {
+                self.floor = .order(0)
+            } else {
+                let floorString = rawFloor.trimmingCharacters(in: .decimalDigits.inverted)
+                let number = NumberFormatter().number(from: floorString)
+                guard let number else {
+                    throw Floor.FloorErrors.invalidNumber
+                }
+                self.floor = .order(number.intValue)
+            }
+        } else {
+            self.floor = nil
+        }
+        
+        self.roomNumber = try container.decode(String.self, forKey: .roomNumber)
+    }
 }
 
 enum Floor: Decodable, Equatable {
     case order(Int)
-    /*
-    case ground = "EG"
-    case the1Og = "1.OG"
-    case the3Og = "3.OG"
-    case the4Og = "4.OG"
-     */
-    enum CodingKeys: CodingKey {
-        case order
-    }
     
-    enum OrderCodingKeys: CodingKey {
-        case _0
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        var allKeys = ArraySlice(container.allKeys)
-        guard let onlyKey = allKeys.popFirst(), allKeys.isEmpty else {
-            throw DecodingError.typeMismatch(Floor.self, DecodingError.Context.init(codingPath: container.codingPath, debugDescription: "Invalid number of keys found, expected one.", underlyingError: nil))
-        }
-        switch onlyKey {
-        case .order:
-            let nestedContainer = try container.nestedContainer(keyedBy: Floor.OrderCodingKeys.self, forKey: .order)
-            self = Floor.order(try nestedContainer.decode(Int.self, forKey: Floor.OrderCodingKeys._0))
-        }
+    enum FloorErrors: Error {
+        case invalidNumber
     }
 }
 

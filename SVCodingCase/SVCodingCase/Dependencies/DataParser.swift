@@ -14,7 +14,7 @@ struct DataParser {
 
 
 extension DataParser {
-    static let live = DataParser { data in
+    static let instance = DataParser { data in
         let jsonDecoder = JSONDecoder()
         let result = try jsonDecoder.decode(SVData.self, from: data)
         
@@ -24,7 +24,8 @@ extension DataParser {
 
 
 extension DataParser: DependencyKey {
-    static var liveValue = DataParser.live
+    static var liveValue = DataParser.instance
+    static var testValue = DataParser.instance
 }
 
 extension DependencyValues {
