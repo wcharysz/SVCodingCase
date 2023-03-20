@@ -36,7 +36,7 @@ struct ContentView: View {
                                 }.padding()
                             }
                         }
-                    }
+                    }.animation(.easeInOut, value: viewStore.rows)
                 }
             }.searchable(text: viewStore.binding(\.$search), prompt: "Search for locks")
              .onAppear {
