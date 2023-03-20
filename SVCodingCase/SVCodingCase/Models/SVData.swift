@@ -47,7 +47,7 @@ struct Lock: Decodable, Equatable, Identifiable {
         self.serialNumber = try container.decode(String.self, forKey: .serialNumber)
         if let rawFloor = try container.decodeIfPresent(String.self, forKey: .floor) {
             if rawFloor == "EG" {
-                self.floor = .order(0)
+                self.floor = .ground
             } else {
                 let floorString = rawFloor.trimmingCharacters(in: .decimalDigits.inverted)
                 let number = NumberFormatter().number(from: floorString)
@@ -61,14 +61,46 @@ struct Lock: Decodable, Equatable, Identifiable {
         }
         
         self.roomNumber = try container.decode(String.self, forKey: .roomNumber)
+        allFields = parseAllFields()
+    }
+    
+    var allFields: Set<String> = Set()
+    
+    private func parseAllFields() -> Set<String> {
+        let mirror = Mirror(reflecting: self)
+        
+        let array = mirror.children.compactMap { child in
+            switch child.value {
+            case let value as String:
+                return value
+            case let value as LockType:
+                return value.rawValue
+            case let value as Floor:
+                return value.description
+            default:
+                return nil
+            }
+        }
+        
+        return Set(array)
     }
 }
 
 enum Floor: Decodable, Equatable {
+    case ground
     case order(Int)
     
     enum FloorErrors: Error {
         case invalidNumber
+    }
+    
+    var description: String {
+        switch self {
+        case .order(let number):
+            return String(number)
+        case .ground:
+            return "Ground"
+        }
     }
 }
 
@@ -111,10 +143,6 @@ extension Lock {
             return "🤷‍♂️"
         }
         
-        switch floor {
-        case .order(let number):
-            return number == 0 ? "Ground" : String(number)
-        }
-        
+        return floor.description
     }
 }

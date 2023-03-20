@@ -29,8 +29,28 @@ struct ContentDomain: ReducerProtocol {
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .binding:
+            case .binding(\.$search):
+                let searchedPhrase = state.search
                 
+                guard let model = state.model else {
+                    return .none
+                }
+                
+                guard searchedPhrase != "" else {
+                    state.rows = IdentifiedArrayOf(uniqueElements: model.locks)
+                    return .none
+                }
+                        
+                let locks = model.locks.filter({ lock in
+                    lock.allFields.contains { string in
+                        string.range(of: searchedPhrase, options: .caseInsensitive) != nil
+                    }
+                })
+                
+                state.rows = IdentifiedArrayOf(uniqueElements: locks)
+                
+                return .none
+            case .binding:
                 return .none
             case .loadData:
                 return .run { send in
