@@ -40,7 +40,7 @@ struct ContentDomain: ReducerProtocol {
                     state.rows = IdentifiedArrayOf(uniqueElements: model.locks)
                     return .none
                 }
-                        
+                /*
                 let locks = model.locks.filter({ lock in
                     lock.allFields.contains { string in
                         string.range(of: searchedPhrase, options: .caseInsensitive) != nil
@@ -48,7 +48,7 @@ struct ContentDomain: ReducerProtocol {
                 })
                 
                 state.rows = IdentifiedArrayOf(uniqueElements: locks)
-                
+                */
                 return .none
             case .binding:
                 return .none

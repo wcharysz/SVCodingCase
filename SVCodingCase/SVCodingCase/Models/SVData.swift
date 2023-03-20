@@ -4,34 +4,48 @@
 //   let sVData = try? JSONDecoder().decode(SVData.self, from: jsonData)
 
 import Foundation
+import GRDB
 
 // MARK: - SVData
-struct SVData: Decodable, Equatable {
+struct SVData: Codable, Equatable, FetchableRecord {
     let buildings: [Building]
-    let locks: [Lock]
-    let groups: [Building]
+    let locks: [Lock] //# searchable
+    let groups: [Group] //# searchable
     let media: [Media]
 }
 
 // MARK: - Building
-struct Building: Decodable, Equatable {
-    let id: String
-    let shortCut: String?
-    let name: String
+struct Building: Codable, Identifiable, Equatable, FetchableRecord, PersistableRecord, TableRecord {
+    static let locks = hasMany(Lock.self)
+    
+    var locks: QueryInterfaceRequest<Lock> {
+        request(for: Building.locks)
+    }
+    
+    var id: String
+    let shortCut: String? //# searchable
+    let name: String // # searchable
     let description: String?
 }
 
 // MARK: - Lock
-struct Lock: Decodable, Equatable, Identifiable {
-    let id, buildingID: String
+struct Lock: Codable, Equatable, Identifiable, FetchableRecord, PersistableRecord, TableRecord {
+    static let buildingForeignKey = ForeignKey([CodingKeys.buildingID])
+    static let building = belongsTo(Building.self, using: buildingForeignKey)
+    
+    var building: QueryInterfaceRequest<Building> {
+        request(for: Lock.building)
+    }
+    
+    var id, buildingID: String
     let type: LockType
-    let name: String
+    let name: String //# searchable
     let description: String?
     let serialNumber: String
-    let floor: Floor?
-    let roomNumber: String
+    let floor: Floor? //# searchable
+    let roomNumber: String //# searchable
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, ColumnExpression {
         case id
         case buildingID = "buildingId"
         case type, name, description, serialNumber, floor, roomNumber
@@ -61,32 +75,34 @@ struct Lock: Decodable, Equatable, Identifiable {
         }
         
         self.roomNumber = try container.decode(String.self, forKey: .roomNumber)
-        allFields = parseAllFields()
     }
     
-    var allFields: Set<String> = Set()
-    
-    private func parseAllFields() -> Set<String> {
-        let mirror = Mirror(reflecting: self)
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(buildingID, forKey: .buildingID)
+        try container.encode(type, forKey: .type)
+        try container.encode(name, forKey: .name)
+        try container.encode(description, forKey: .description)
+        try container.encode(serialNumber, forKey: .serialNumber)
         
-        let array = mirror.children.compactMap { child in
-            switch child.value {
-            case let value as String:
-                return value
-            case let value as LockType:
-                return value.rawValue
-            case let value as Floor:
-                return value.description
-            default:
-                return nil
-            }
+        var rawFloor: String?
+        
+        switch floor {
+        case .ground?:
+            rawFloor = "EG"
+        case .order(let number)?:
+            rawFloor = String(number)
+        default:
+            break
         }
         
-        return Set(array)
+        try container.encode(rawFloor, forKey: .floor)
+        try container.encode(roomNumber, forKey: .roomNumber)
     }
 }
 
-enum Floor: Decodable, Equatable {
+enum Floor: Codable, Equatable {
     case ground
     case order(Int)
     
@@ -104,45 +120,49 @@ enum Floor: Decodable, Equatable {
     }
 }
 
-enum LockType: String, Decodable, Equatable {
+enum LockType: String, Codable, Equatable {
     case cylinder = "Cylinder"
     case smartHandle = "SmartHandle"
 }
 
 // MARK: - Media
-struct Media: Decodable, Equatable {
-    let id, groupID: String
+struct Media: Codable, Identifiable, Equatable, FetchableRecord, PersistableRecord {
+    static let groupForeignKey = ForeignKey([CodingKeys.groupID])
+    static let group = belongsTo(Group.self, using: groupForeignKey)
+    
+    var group: QueryInterfaceRequest<Group> {
+        request(for: Media.group)
+    }
+    
+    var id, groupID: String
     let type: MediaType
     let owner: String
     let description: String?
     let serialNumber: String
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, ColumnExpression {
         case id
         case groupID = "groupId"
         case type, owner, description, serialNumber
     }
 }
 
-enum MediaType: String, Decodable, Equatable {
+enum MediaType: String, Codable, Equatable {
     case card = "Card"
     case transponder = "Transponder"
     case transponderWithCardInlay = "TransponderWithCardInlay"
 }
 
-
-extension Lock {
-    var buildingDesription: String {
-        let result = buildingID.prefix(5)
-        
-        return String(result)
+struct Group: Codable, Identifiable, Equatable, FetchableRecord, PersistableRecord {
+    static let media = hasMany(Media.self)
+    
+    var media: QueryInterfaceRequest<Media> {
+        request(for: Group.media)
     }
     
-    var floorDescription: String {
-        guard let floor else {
-            return "🤷‍♂️"
-        }
-        
-        return floor.description
-    }
+    var id: String
+    let name: String
+    let description: String
 }
+
+

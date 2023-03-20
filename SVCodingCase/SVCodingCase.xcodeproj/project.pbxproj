@@ -20,6 +20,10 @@
 		ECD4036F29C46DC0002C1CD5 /* DataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4036E29C46DC0002C1CD5 /* DataClient.swift */; };
 		ECD4037229C46EB9002C1CD5 /* SVData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037129C46EB9002C1CD5 /* SVData.swift */; };
 		ECD4037429C48A59002C1CD5 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037329C48A59002C1CD5 /* DataParser.swift */; };
+		ECD4037929C884B2002C1CD5 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = ECD4037829C884B2002C1CD5 /* GRDB */; };
+		ECD4037B29C88ED5002C1CD5 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037A29C88ED5002C1CD5 /* DataStore.swift */; };
+		ECD4037D29C892A2002C1CD5 /* SQLiteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037C29C892A2002C1CD5 /* SQLiteStore.swift */; };
+		ECD4037F29C8ECE2002C1CD5 /* SVDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037E29C8ECE2002C1CD5 /* SVDataExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +59,9 @@
 		ECD4036E29C46DC0002C1CD5 /* DataClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataClient.swift; sourceTree = "<group>"; };
 		ECD4037129C46EB9002C1CD5 /* SVData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVData.swift; sourceTree = "<group>"; };
 		ECD4037329C48A59002C1CD5 /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		ECD4037A29C88ED5002C1CD5 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		ECD4037C29C892A2002C1CD5 /* SQLiteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteStore.swift; sourceTree = "<group>"; };
+		ECD4037E29C8ECE2002C1CD5 /* SVDataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVDataExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +70,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECD4036529C4694C002C1CD5 /* ComposableArchitecture in Frameworks */,
+				ECD4037929C884B2002C1CD5 /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +180,8 @@
 			children = (
 				ECD4036E29C46DC0002C1CD5 /* DataClient.swift */,
 				ECD4037329C48A59002C1CD5 /* DataParser.swift */,
+				ECD4037A29C88ED5002C1CD5 /* DataStore.swift */,
+				ECD4037C29C892A2002C1CD5 /* SQLiteStore.swift */,
 			);
 			path = Dependencies;
 			sourceTree = "<group>";
@@ -180,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				ECD4037129C46EB9002C1CD5 /* SVData.swift */,
+				ECD4037E29C8ECE2002C1CD5 /* SVDataExtensions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -202,6 +213,7 @@
 			name = SVCodingCase;
 			packageProductDependencies = (
 				ECD4036429C4694C002C1CD5 /* ComposableArchitecture */,
+				ECD4037829C884B2002C1CD5 /* GRDB */,
 			);
 			productName = SVCodingCase;
 			productReference = ECD4033629C468DD002C1CD5 /* SVCodingCase.app */;
@@ -277,6 +289,7 @@
 			mainGroup = ECD4032D29C468DD002C1CD5;
 			packageReferences = (
 				ECD4036329C4694B002C1CD5 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				ECD4037729C884B2002C1CD5 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 			);
 			productRefGroup = ECD4033729C468DD002C1CD5 /* Products */;
 			projectDirPath = "";
@@ -321,7 +334,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECD4037F29C8ECE2002C1CD5 /* SVDataExtensions.swift in Sources */,
 				ECD4033C29C468DD002C1CD5 /* ContentView.swift in Sources */,
+				ECD4037D29C892A2002C1CD5 /* SQLiteStore.swift in Sources */,
+				ECD4037B29C88ED5002C1CD5 /* DataStore.swift in Sources */,
 				ECD4037229C46EB9002C1CD5 /* SVData.swift in Sources */,
 				ECD4037429C48A59002C1CD5 /* DataParser.swift in Sources */,
 				ECD4036F29C46DC0002C1CD5 /* DataClient.swift in Sources */,
@@ -661,6 +677,14 @@
 				minimumVersion = 0.52.0;
 			};
 		};
+		ECD4037729C884B2002C1CD5 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -668,6 +692,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ECD4036329C4694B002C1CD5 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		ECD4037829C884B2002C1CD5 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ECD4037729C884B2002C1CD5 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
