@@ -7,23 +7,26 @@
 
 import Foundation
 import ComposableArchitecture
+import OrderedCollections
 
 struct ContentDomain: ReducerProtocol {
     
     struct State: Equatable {
-        var model: SVData?
-        var rows: IdentifiedArrayOf<Lock> = []
+        var rows: IdentifiedArrayOf<ContentModel> = []
         @BindingState var search = ""
     }
     
     enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case loadData
-        case reloadModel(SVData)
+        case reloadAllRows
+        case reloadRows(OrderedSet<ContentModel>)
+        case saveModel(SVData)
     }
     
     @Dependency(\.dataClient) var dataClient
     @Dependency(\.dataParser.parseData) var parser
+    @Dependency(\.dataStore) var dataStore
     
     var body: some ReducerProtocol<State, Action> {
         BindingReducer()
@@ -32,35 +35,38 @@ struct ContentDomain: ReducerProtocol {
             case .binding(\.$search):
                 let searchedPhrase = state.search
                 
-                guard let model = state.model else {
-                    return .none
-                }
-                
                 guard searchedPhrase != "" else {
-                    state.rows = IdentifiedArrayOf(uniqueElements: model.locks)
-                    return .none
-                }
-                /*
-                let locks = model.locks.filter({ lock in
-                    lock.allFields.contains { string in
-                        string.range(of: searchedPhrase, options: .caseInsensitive) != nil
+                    return .task {
+                        .reloadAllRows
                     }
-                })
-                
-                state.rows = IdentifiedArrayOf(uniqueElements: locks)
-                */
-                return .none
+                }
+
+                return .run { send in
+                    let result = try await dataStore.loadRecords(searchedPhrase)
+                    
+                    await send(.reloadRows(result))
+                }
             case .binding:
                 return .none
             case .loadData:
                 return .run { send in
                     let data = try await dataClient.loadData()
                     let model = try parser(data)
-                    await send(.reloadModel(model))
+                    await send(.saveModel(model))
                 }
-            case .reloadModel(let newModel):
-                state.model = newModel
-                state.rows = IdentifiedArrayOf(uniqueElements: newModel.locks)
+            case .reloadAllRows:
+                return .run { send in
+                    let rows = try await dataStore.loadAllRecords()
+                    await send(.reloadRows(rows))
+                }
+            case .saveModel(let newModel):
+                return .task {
+                    try dataStore.saveRecords(newModel)
+                    return .reloadAllRows
+                }
+            case .reloadRows(let newRows):
+                state.rows = IdentifiedArrayOf(uniqueElements: newRows)
+                
                 return .none
             }
         }

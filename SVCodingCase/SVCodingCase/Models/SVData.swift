@@ -7,10 +7,10 @@ import Foundation
 import GRDB
 
 // MARK: - SVData
-struct SVData: Codable, Equatable, FetchableRecord {
+struct SVData: Codable, Equatable {
     let buildings: [Building]
-    let locks: [Lock] //# searchable
-    let groups: [Group] //# searchable
+    let locks: [Lock]
+    let groups: [Group]
     let media: [Media]
 }
 
@@ -162,7 +162,7 @@ struct Group: Codable, Identifiable, Equatable, FetchableRecord, PersistableReco
     
     var id: String
     let name: String
-    let description: String
+    let description: String?
 }
 
 

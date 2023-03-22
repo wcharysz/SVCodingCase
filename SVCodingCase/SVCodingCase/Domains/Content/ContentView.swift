@@ -21,15 +21,15 @@ struct ContentView: View {
                             VStack(alignment: .leading) {
                                 HStack {
                                     Text("Lock name: ")
-                                    Text(row.name)
+                                    Text(row.lockName)
                                 }.padding()
                                 
                                 HStack {
                                     Text("Building:")
-                                    Text(row.buildingDesription)
+                                    Text(row.shortCut)
                                     
                                     Text("-")
-                                    Text(row.floorDescription)
+                                    Text(row.floor)
                                     Text("-")
                                     
                                     Text(row.roomNumber)

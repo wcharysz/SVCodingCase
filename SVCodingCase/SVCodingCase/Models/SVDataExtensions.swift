@@ -86,7 +86,7 @@ extension Group: CreateTable {
                 try db.create(table: "Group", body: { table in
                     table.primaryKey("id", .text).notNull().unique()
                     table.column("name", .text).notNull(onConflict: .fail)
-                    table.column("description", .text).notNull(onConflict: .fail)
+                    table.column("description", .text)
                 })
             }
         })

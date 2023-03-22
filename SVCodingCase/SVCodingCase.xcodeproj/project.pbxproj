@@ -24,6 +24,7 @@
 		ECD4037B29C88ED5002C1CD5 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037A29C88ED5002C1CD5 /* DataStore.swift */; };
 		ECD4037D29C892A2002C1CD5 /* SQLiteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037C29C892A2002C1CD5 /* SQLiteStore.swift */; };
 		ECD4037F29C8ECE2002C1CD5 /* SVDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037E29C8ECE2002C1CD5 /* SVDataExtensions.swift */; };
+		ECD4038129CB049A002C1CD5 /* ContentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4038029CB049A002C1CD5 /* ContentModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		ECD4037A29C88ED5002C1CD5 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		ECD4037C29C892A2002C1CD5 /* SQLiteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteStore.swift; sourceTree = "<group>"; };
 		ECD4037E29C8ECE2002C1CD5 /* SVDataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVDataExtensions.swift; sourceTree = "<group>"; };
+		ECD4038029CB049A002C1CD5 /* ContentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 			children = (
 				ECD4037129C46EB9002C1CD5 /* SVData.swift */,
 				ECD4037E29C8ECE2002C1CD5 /* SVDataExtensions.swift */,
+				ECD4038029CB049A002C1CD5 /* ContentModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				ECD4037229C46EB9002C1CD5 /* SVData.swift in Sources */,
 				ECD4037429C48A59002C1CD5 /* DataParser.swift in Sources */,
 				ECD4036F29C46DC0002C1CD5 /* DataClient.swift in Sources */,
+				ECD4038129CB049A002C1CD5 /* ContentModels.swift in Sources */,
 				ECD4033A29C468DD002C1CD5 /* SVCodingCaseApp.swift in Sources */,
 				ECD4036929C46A50002C1CD5 /* ContentDomain.swift in Sources */,
 			);
