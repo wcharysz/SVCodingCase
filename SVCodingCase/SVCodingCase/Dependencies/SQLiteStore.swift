@@ -10,9 +10,11 @@ import GRDB
 
 class SQLiteStore {
     
-    static let shared = SQLiteStore()
+    static let live = SQLiteStore(SQLiteStore.liveDbFile)
+    static let mock = SQLiteStore(SQLiteStore.mockDbFile)
     
-    private static let dbFile = "db.sqlite"
+    private static let liveDbFile = "db.sqlite"
+    private static let mockDbFile = "mock.sqlite"
     
     var dbPool: DatabasePool?
     
@@ -21,7 +23,7 @@ class SQLiteStore {
         case noPathForDB
     }
     
-    init() {
+    init(_ dbFile: String) {
         do {
             var config = Configuration()
             config.defaultTransactionKind = .immediate
@@ -31,7 +33,7 @@ class SQLiteStore {
                 throw SQLiteStoreErrors.noPathForDB
             }
             
-            url.append(component: SQLiteStore.dbFile)
+            url.append(component: dbFile)
             
             dbPool = try DatabasePool(path: url.absoluteString, configuration: config)
             try createTables()

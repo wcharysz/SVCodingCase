@@ -28,4 +28,29 @@ final class SVCodingCaseTests: XCTestCase {
         XCTAssertNotNil(result)
     }
 
+    
+    func testLockSearching() async throws {
+        @Dependency(\.dataClient) var dataClient
+        @Dependency(\.dataParser) var parser
+        @Dependency(\.dataStore) var dataStore
+        
+        let data = try await dataClient.loadData()
+        let result = try parser.parseData(data)
+        XCTAssertNotNil(result)
+        
+        //Save data
+        try dataStore.saveRecords(result)
+        
+        //Search for string "PROD"
+        let result1 = try await dataStore.loadRecords("PROD")
+        XCTAssertTrue(result1.count == 2)
+        
+        //Search for string "WC."
+        let result2 = try await dataStore.loadRecords("WC.")
+        XCTAssertTrue(result2.count == 4)
+        
+        //Search for string "WC."
+        let result3 = try await dataStore.loadRecords("EG")
+        XCTAssertTrue(result3.count == 1)
+    }
 }

@@ -17,26 +17,43 @@ struct DataStore {
 
 extension DataStore {
     static let live = DataStore { records in
-        try SQLiteStore.shared.saveRecords(records)
+        try SQLiteStore.live.saveRecords(records)
     } loadRecords: { searched in
-        let result = try await SQLiteStore.shared.loadRecords(searched).map({ record in
+        let result = try await SQLiteStore.live.loadRecords(searched).map({ record in
             ContentModel(record)
         })
         
         return OrderedSet(result)
     } loadAllRecords: {
-        let result = try await SQLiteStore.shared.loadAllRecords().map({ record in
+        let result = try await SQLiteStore.live.loadAllRecords().map({ record in
             ContentModel(record)
         })
         
         return OrderedSet(result)
     }
+    
+    static let mock = DataStore { records in
+        try SQLiteStore.mock.saveRecords(records)
+    } loadRecords: { searched in
+        let result = try await SQLiteStore.mock.loadRecords(searched).map({ record in
+            ContentModel(record)
+        })
+        
+        return OrderedSet(result)
+    } loadAllRecords: {
+        let result = try await SQLiteStore.mock.loadAllRecords().map({ record in
+            ContentModel(record)
+        })
+        
+        return OrderedSet(result)
+    }
+
 }
 
 extension DataStore: DependencyKey {
     static var liveValue = DataStore.live
-    static var previewValue = DataStore.live
-    static var testValue = DataStore.live
+    static var previewValue = DataStore.mock
+    static var testValue = DataStore.mock
 }
 
 extension DependencyValues {

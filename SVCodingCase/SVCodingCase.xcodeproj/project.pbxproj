@@ -16,7 +16,6 @@
 		ECD4035729C468DF002C1CD5 /* SVCodingCaseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4035629C468DF002C1CD5 /* SVCodingCaseUITestsLaunchTests.swift */; };
 		ECD4036529C4694C002C1CD5 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = ECD4036429C4694C002C1CD5 /* ComposableArchitecture */; };
 		ECD4036929C46A50002C1CD5 /* ContentDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4036829C46A50002C1CD5 /* ContentDomain.swift */; };
-		ECD4036C29C46BF6002C1CD5 /* sv_lsm_data.json in Resources */ = {isa = PBXBuildFile; fileRef = ECD4036B29C46BF6002C1CD5 /* sv_lsm_data.json */; };
 		ECD4036F29C46DC0002C1CD5 /* DataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4036E29C46DC0002C1CD5 /* DataClient.swift */; };
 		ECD4037229C46EB9002C1CD5 /* SVData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037129C46EB9002C1CD5 /* SVData.swift */; };
 		ECD4037429C48A59002C1CD5 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037329C48A59002C1CD5 /* DataParser.swift */; };
@@ -25,6 +24,8 @@
 		ECD4037D29C892A2002C1CD5 /* SQLiteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037C29C892A2002C1CD5 /* SQLiteStore.swift */; };
 		ECD4037F29C8ECE2002C1CD5 /* SVDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4037E29C8ECE2002C1CD5 /* SVDataExtensions.swift */; };
 		ECD4038129CB049A002C1CD5 /* ContentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4038029CB049A002C1CD5 /* ContentModels.swift */; };
+		ECD4038429CC5B4B002C1CD5 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = ECD4038329CC5B4B002C1CD5 /* GRDB */; };
+		ECD4038529CC5BEA002C1CD5 /* sv_lsm_data.json in Resources */ = {isa = PBXBuildFile; fileRef = ECD4036B29C46BF6002C1CD5 /* sv_lsm_data.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECD4038429CC5B4B002C1CD5 /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +102,7 @@
 				ECD4034929C468DF002C1CD5 /* SVCodingCaseTests */,
 				ECD4035329C468DF002C1CD5 /* SVCodingCaseUITests */,
 				ECD4033729C468DD002C1CD5 /* Products */,
+				ECD4038229CC5B4B002C1CD5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,6 +132,7 @@
 		ECD4033F29C468DE002C1CD5 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				ECD4036B29C46BF6002C1CD5 /* sv_lsm_data.json */,
 				ECD4034029C468DE002C1CD5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -171,7 +175,6 @@
 		ECD4036A29C46A71002C1CD5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				ECD4036B29C46BF6002C1CD5 /* sv_lsm_data.json */,
 				ECD4033D29C468DE002C1CD5 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -196,6 +199,13 @@
 				ECD4038029CB049A002C1CD5 /* ContentModels.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		ECD4038229CC5B4B002C1CD5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +246,9 @@
 				ECD4034829C468DF002C1CD5 /* PBXTargetDependency */,
 			);
 			name = SVCodingCaseTests;
+			packageProductDependencies = (
+				ECD4038329CC5B4B002C1CD5 /* GRDB */,
+			);
 			productName = SVCodingCaseTests;
 			productReference = ECD4034629C468DF002C1CD5 /* SVCodingCaseTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -311,7 +324,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECD4034129C468DE002C1CD5 /* Preview Assets.xcassets in Resources */,
-				ECD4036C29C46BF6002C1CD5 /* sv_lsm_data.json in Resources */,
 				ECD4033E29C468DE002C1CD5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +332,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECD4038529CC5BEA002C1CD5 /* sv_lsm_data.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -698,6 +711,11 @@
 			productName = ComposableArchitecture;
 		};
 		ECD4037829C884B2002C1CD5 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ECD4037729C884B2002C1CD5 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+		ECD4038329CC5B4B002C1CD5 /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = ECD4037729C884B2002C1CD5 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
 			productName = GRDB;
