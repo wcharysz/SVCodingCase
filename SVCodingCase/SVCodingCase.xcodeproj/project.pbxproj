@@ -26,6 +26,8 @@
 		ECD4038129CB049A002C1CD5 /* ContentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD4038029CB049A002C1CD5 /* ContentModels.swift */; };
 		ECD4038429CC5B4B002C1CD5 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = ECD4038329CC5B4B002C1CD5 /* GRDB */; };
 		ECD4038529CC5BEA002C1CD5 /* sv_lsm_data.json in Resources */ = {isa = PBXBuildFile; fileRef = ECD4036B29C46BF6002C1CD5 /* sv_lsm_data.json */; };
+		ECD4038629CC64A4002C1CD5 /* sv_lsm_data.json in Resources */ = {isa = PBXBuildFile; fileRef = ECD4036B29C46BF6002C1CD5 /* sv_lsm_data.json */; };
+		ECD4038729CC659C002C1CD5 /* sv_lsm_data.json in Resources */ = {isa = PBXBuildFile; fileRef = ECD4036B29C46BF6002C1CD5 /* sv_lsm_data.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -324,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECD4034129C468DE002C1CD5 /* Preview Assets.xcassets in Resources */,
+				ECD4038729CC659C002C1CD5 /* sv_lsm_data.json in Resources */,
 				ECD4033E29C468DE002C1CD5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,6 +343,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECD4038629CC64A4002C1CD5 /* sv_lsm_data.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

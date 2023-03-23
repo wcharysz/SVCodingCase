@@ -16,29 +16,33 @@ struct ContentView: View {
         WithViewStore(store) { viewStore in
             NavigationStack {
                 VStack {
-                    List {
-                        ForEach(viewStore.rows) { row in
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text("Lock name: ")
-                                    Text(row.lockName)
-                                }.padding()
-                                
-                                HStack {
-                                    Text("Building:")
-                                    Text(row.shortCut)
+                    if viewStore.isLoading {
+                        ProgressView()
+                    } else {
+                        List {
+                            ForEach(viewStore.rows) { row in
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("Lock name: ")
+                                        Text(row.lockName)
+                                    }.padding()
                                     
-                                    Text("-")
-                                    Text(row.floor)
-                                    Text("-")
-                                    
-                                    Text(row.roomNumber)
-                                }.padding()
+                                    HStack {
+                                        Text("Building:")
+                                        Text(row.shortCut)
+                                        
+                                        Text("-")
+                                        Text(row.floor)
+                                        Text("-")
+                                        
+                                        Text(row.roomNumber)
+                                    }.padding()
+                                }
                             }
+                        }.animation(.easeInOut, value: viewStore.rows)
+                         .refreshable {
+                                viewStore.send(.loadData)
                         }
-                    }.animation(.easeInOut, value: viewStore.rows)
-                     .refreshable {
-                            viewStore.send(.loadData)
                     }
                 }
             }.searchable(text: viewStore.binding(\.$search), prompt: "Search for locks")

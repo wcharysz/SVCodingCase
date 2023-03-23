@@ -53,4 +53,31 @@ final class SVCodingCaseTests: XCTestCase {
         let result3 = try await dataStore.loadRecords("EG")
         XCTAssertTrue(result3.count == 1)
     }
+    
+    
+    @MainActor
+    func testContentDomain() async throws {
+        @Dependency(\.dataClient) var dataClient
+        @Dependency(\.dataParser) var parser
+        @Dependency(\.dataStore) var dataStore
+        
+        let store = TestStore(initialState: .init(), reducer: ContentDomain())
+        
+        _ = await store.send(.loadData) {
+            $0.isLoading = true
+        }
+        
+        let data = try await dataClient.loadData()
+        let model = try parser.parseData(data)
+        
+        await store.receive(.saveModel(model), timeout: 1)
+        await store.receive(.reloadAllRows, timeout: 1)
+        
+        let rows = try await dataStore.loadAllRecords()
+        
+        await store.receive(.reloadRows(rows)) {
+            $0.isLoading = false
+            $0.rows = IdentifiedArrayOf(uniqueElements: rows)
+        }
+    }
 }

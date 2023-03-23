@@ -12,6 +12,7 @@ import OrderedCollections
 struct ContentDomain: ReducerProtocol {
     
     struct State: Equatable {
+        var isLoading = false
         var rows: IdentifiedArrayOf<ContentModel> = []
         @BindingState var search = ""
     }
@@ -33,6 +34,7 @@ struct ContentDomain: ReducerProtocol {
         Reduce { state, action in
             switch action {
             case .binding(\.$search):
+                state.isLoading = true
                 let searchedPhrase = state.search
                 
                 guard searchedPhrase != "" else {
@@ -49,6 +51,8 @@ struct ContentDomain: ReducerProtocol {
             case .binding:
                 return .none
             case .loadData:
+                state.isLoading = true
+                
                 return .run { send in
                     let data = try await dataClient.loadData()
                     let model = try parser(data)
@@ -66,6 +70,7 @@ struct ContentDomain: ReducerProtocol {
                 }
             case .reloadRows(let newRows):
                 state.rows = IdentifiedArrayOf(uniqueElements: newRows)
+                state.isLoading = false
                 
                 return .none
             }
