@@ -22,15 +22,17 @@ struct ContentModel: Identifiable, Equatable, Hashable {
         floor = record.lock.floorDescription
         roomNumber = record.lock.roomNumber
     }
+    
+    init(_ row: Row) {
+        id = row["id"]
+        lockName = row["name"]
+        shortCut = row["shortCut"]
+        floor = row["floor"] ?? "🤷‍♂️"
+        roomNumber = row["roomNumber"]
+    }
 }
-
 
 struct ContentRecord: Decodable, FetchableRecord {
     var shortCut: String
     var lock: Lock
-}
-
-struct BuildingRequest: Decodable, FetchableRecord {
-    var building: Building
-    var locks: [Lock]
 }

@@ -76,39 +76,16 @@ class SQLiteStore {
         })
     }
 
-    func loadRecords(_ searched: String) async throws -> [ContentRecord] {
+    func loadRecords(_ searched: String) async throws -> [Row] {
         guard let dbPool else {
             throw SQLiteStoreErrors.noDBPool
         }
         
-        let buildingRows = try await dbPool.read({ db in
-            try Building.filter(Column("name").like("%" + searched + "%") ||
-                                Column("shortCut").like("%" + searched + "%"))
-                .including(all: Building.locks)
-                .asRequest(of: BuildingRequest.self)
-                .fetchAll(db)
-        })
-    
-        var contentRecords = try await dbPool.read({ db in
-            try Lock.filter(Column("name").like("%" + searched + "%") ||
-                            Column("floor").like("%" + searched + "%") ||
-                            Column("roomNumber").like("%" + searched + "%"))
-                .annotated(withRequired: Lock.building.select(Column("shortCut")))
-                .asRequest(of: ContentRecord.self)
-                .fetchAll(db)
+        let rows = try await dbPool.read({ db in
+            try Row.fetchAll(db, sql: "SELECT Lock.id, Building.shortCut, Lock.name, Lock.floor, Lock.roomNumber FROM Building JOIN Lock ON Building.id = Lock.buildingId WHERE Building.shortCut LIKE '%\(searched)%' OR Building.name LIKE '%\(searched)%' OR Lock.name LIKE '%\(searched)%' OR Lock.floor LIKE '%\(searched)%' OR Lock.roomNumber LIKE '%\(searched)%'")
         })
         
-        contentRecords += buildingRows.flatMap({ object in
-            object.locks.compactMap { lock in
-                guard let shortCut = object.building.shortCut else {
-                    return nil
-                }
-                
-                return ContentRecord(shortCut: shortCut, lock: lock)
-            }
-        })
-        
-        return contentRecords
+        return rows
     }
     
     func loadAllRecords() async throws -> [ContentRecord] {
